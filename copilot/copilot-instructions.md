@@ -138,3 +138,110 @@ When handing off to another agent, always provide structured context:
 1. Diagnosis of the issue
 2. Actions taken (with file:line references)
 3. Remaining issues or follow-ups (if any)
+
+## Tool Usage Guidelines
+
+### Mandatory Patterns
+- **Read before edit**: Use `read` tool directly before any `edit`/`write` operations
+- **Explore for discovery**: Delegate glob/grep searches to `explore` subagent
+- **Verify after changes**: Run tests/lints after implementation
+
+### Bash Safety
+- **NEVER execute**: `rm -rf /*`, destructive git force operations, factory resets
+- **ALWAYS verify**: Check file existence before deletion
+- **Use version control**: Suggest commits, never auto-commit
+
+### Prohibited Patterns
+- No debug statements (console.log, dbg!, fmt.Println) in production code
+- No hardcoded credentials, secrets, or API keys
+- No new dependencies without user approval
+
+---
+
+## Agent Constraints
+
+### File & Codebase Access
+
+**CRITICAL: `explore` is the SOLE agent authorized to use `glob`, `grep`, and `webfetch`.** These tools are disabled at the tool-permission level for all other agents — this is not just policy, it is enforced by the runtime.
+
+**Special case — `builder` agent**: `builder` has `read` enabled because the Edit/Write tools enforce a per-session timestamp check: a file must be read by the **primary agent** before it can be edited. Subagent reads (via `explore`) do NOT satisfy this check. Therefore `builder` must call `read` directly before editing any file.
+
+#### Tool-Level Enforcement Architecture
+
+| Tool       | `explore` | `builder`                         | All other agents |
+|------------|-----------|-----------------------------------|------------------|
+| `read`     | enabled   | enabled (required for Edit/Write) | disabled         |
+| `glob`     | enabled   | disabled                          | disabled         |
+| `grep`     | enabled   | disabled                          | disabled         |
+| `webfetch` | enabled   | disabled                          | disabled         |
+
+#### Primary Agents
+
+The `plan`, `debug`, `docs`, `code-reviewer`, `architect`, `security-reviewer`, `build-error-resolver`, and `refactor` agents have `read`, `glob`, `grep`, and `webfetch` **disabled at the tool level**:
+
+- **ALL** file reading, codebase searches, and web fetches **MUST** be delegated to the `explore` subagent via the `agent` tool
+- `explore` has explicit overrides in its own prompt to ignore delegation rules, preventing infinite recursion
+
+#### Edit Tool Usage
+
+The Edit/Write tools enforce a **per-session timestamp check**: the primary agent must have called `read` on a file after its last modification, or the edit will be rejected with "File has been modified since it was last read."
+
+- **`builder` agent**: call `read` directly on the target file immediately before editing
+- **All other agents**: cannot edit files — only `builder`, `build-error-resolver`, `refactor`, and `docs` have write tools enabled
+
+#### No Direct File Reading via Bash
+
+Do not use `bash` with `cat`, `head`, `tail`, or similar commands to read file contents — always delegate to `explore` via the `agent` tool.
+
+---
+
+### Code Execution
+
+#### Python Execution Guard
+
+**NEVER** run `python` or `python3` directly. It is blocked at the permission level. Running Python scripts can silently exfiltrate secrets via network calls, environment variable reads, or file system access — even for seemingly innocent tasks like JSON validation.
+
+**Preferred Alternative: jq**
+
+For JSON tasks, always prefer `jq`:
+
+```bash
+# Validate JSON syntax
+jq . file.json
+
+# Validate from stdin
+echo '{"key": "val"}' | jq .
+
+# Extract a field
+jq '.key' file.json
+```
+
+**Exception: Docker Sandbox**
+
+If Python is absolutely required, run it **inline** inside an isolated Docker container — no script file needed:
+
+```bash
+# Inline one-liner (preferred)
+docker run --rm --network none -i python:3-alpine python -c "<your code here>"
+```
+
+**Rules for Docker Python:**
+
+- `--rm` — container destroyed after use (clean environment)
+- `--network none` — no internet access whatsoever
+- `-i` — allows stdin piping for inline code
+- Use inline `-c` or heredoc stdin — **never write a `.py` file first**
+
+---
+
+### Privacy & Secret Handling
+
+#### Mandatory: Load Privacy Guard Skill
+
+**ALWAYS** load the `privacy-guard` skill before:
+
+- Reading any user-provided file
+- Outputting or sharing file contents that may contain secrets, credentials, or PII
+- Processing `.env`, config, credential, or key files of any kind
+
+This applies even when the task appears unrelated to secrets — user-provided files may contain sensitive data that is not immediately obvious. Skipping this step is a critical protocol violation.
