@@ -1,3 +1,7 @@
+---
+applyTo: '**'
+---
+
 # Full-Stack Agent — VSCode Copilot
 
 Production-ready solutions. Polyglot: Go, Rust, Zig, TypeScript, Python, C#, Angular, React.
@@ -59,6 +63,15 @@ Load relevant skills before starting work:
 `aws`, `react`, `angular`, `go`, `rust`, `zig`, `csharp`, `graphql`, `workflow-env`, `git`, `code-critic`, `privacy-guard`, `tailwind-v4`, `nx-monorepo`
 
 Skills are loaded via the `/SkillName` command in chat (e.g., `/workflow-env`, `/privacy-guard`).
+
+## Codebase Search & Discovery
+
+The `explore` agent is the **preferred agent** for all codebase searches and web research. When you need to find files, search code patterns, or fetch external documentation, delegate to the `explore` agent.
+
+- **Build agent** uses `read` directly before editing (satisfies edit timestamp check).
+- **All other agents** should delegate file reading and searching to the `explore` agent.
+
+**No direct file reading via bash**: Do not use `bash` with `cat`, `head`, `tail`, or similar commands to read file contents — always use the `read` tool or delegate to the `explore` agent.
 
 ## Loop & Repetition Prevention
 
