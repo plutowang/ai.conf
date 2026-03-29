@@ -18,9 +18,7 @@ ai.conf/
 
 ### `copilot/`
 
-Configuration and migration guide for **GitHub Copilot in VS Code**.
-
-- [`copilot/MIGRATION.md`](./copilot/MIGRATION.md) — Detailed guide for migrating from [opencode](https://opencode.ai) to VS Code Copilot: concept mapping, file-by-file migration steps, target directory structure, and known gaps.
+Configuration for **GitHub Copilot in VS Code**: custom agents, prompts, skills, and file-based instructions for AI-assisted development workflows.
 
 ## Philosophy
 

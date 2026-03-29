@@ -10,14 +10,15 @@ copilot/
 ├── copilot-instructions.md       # Global always-on instructions
 ├── agents/                       # Custom agents
 │   ├── architect.agent.md
-│   ├── explore.agent.md
+│   ├── builder.agent.md
 │   ├── code-reviewer.agent.md
 │   ├── debug.agent.md
 │   ├── docs.agent.md
-│   ├── build-error-resolver.agent.md
+│   ├── explore.agent.md
+│   ├── planner.agent.md
 │   ├── refactor.agent.md
 │   ├── security-reviewer.agent.md
-│   └── evolver.agent.md
+│   └── build-error-resolver.agent.md
 ├── instructions/                 # File-based always-on instructions
 │   ├── code-standards.instructions.md
 │   ├── development-workflow.instructions.md
@@ -32,7 +33,6 @@ copilot/
 │   ├── continue.prompt.md
 │   ├── deps.prompt.md
 │   ├── evolve.prompt.md
-│   ├── learn.prompt.md
 │   ├── plan.prompt.md
 │   ├── refactor.prompt.md
 │   ├── review.prompt.md
@@ -114,7 +114,6 @@ Prompts appear as slash commands in VSCode Copilot Chat:
 | `/continue`   | Resume from checkpoint                   |
 | `/deps`       | Audit dependencies                       |
 | `/evolve`     | Architectural review                     |
-| `/learn`      | Log a learning point                     |
 | `/plan`       | Create an implementation plan            |
 | `/refactor`   | Guided refactoring                       |
 | `/review`     | Review code changes                      |
@@ -126,17 +125,18 @@ Prompts appear as slash commands in VSCode Copilot Chat:
 
 Custom agents appear in the agent picker dropdown:
 
-| Agent               | Purpose                         |
-| ------------------- | ------------------------------- |
-| architect           | System design                   |
-| build-error-resolver | Build error diagnosis           |
-| code-reviewer       | Code review                     |
-| debug               | Problem diagnosis               |
-| docs                | Documentation                   |
-| evolver             | System evolution                |
-| explore             | Codebase search                 |
-| refactor            | Guided refactoring              |
-| security-reviewer   | Security audits                 |
+| Agent                 | Purpose                                       |
+| -------------------- | --------------------------------------------- |
+| architect            | System design and architecture decisions       |
+| builder              | Implementation from plans                     |
+| build-error-resolver | Build/compile error diagnosis and fix         |
+| code-reviewer        | Code quality, correctness, and maintainability |
+| debug                | Problem diagnosis and root cause analysis      |
+| docs                 | Documentation generation and maintenance      |
+| explore              | Codebase search and web research              |
+| planner              | Structured planning and task decomposition     |
+| refactor             | Guided refactoring with behavior preservation  |
+| security-reviewer    | Security audits and vulnerability detection    |
 
 ## MCP Servers
 
@@ -160,8 +160,7 @@ Skills are loaded via slash commands:
 
 ## Known Limitations
 
-1. **No tool-level enforcement**: The explore agent is a convention, not a hard constraint.
-2. **No temperature control**: Model parameters are global, not per-agent.
-3. **No compaction settings**: VSCode handles context automatically.
-4. **No global permission system**: VSCode handles tool permissions via its own settings.
-5. **`$ARGUMENTS` in prompts**: Works in VSCode, but behavior may differ from opencode.
+1. **Built-in agents cannot be replaced or disabled**: Custom agents are additive only. The built-in Plan, Agent, and other agents remain available alongside custom ones.
+2. **No tool-level enforcement**: The explore agent is a convention, not a hard constraint.
+3. **No temperature or steps control**: Model parameters are global, not per-agent.
+4. **`$ARGUMENTS` in prompts**: Works in VSCode, but behavior may differ from opencode.
