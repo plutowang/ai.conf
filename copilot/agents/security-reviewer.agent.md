@@ -3,7 +3,7 @@ name: security-reviewer
 description: "Use when code touches authentication, authorization, cryptography, user input handling, or secrets management. Auto-invoke after security-sensitive changes."
 disable-model-invocation: true
 agents: ['explore']
-model: Claude Opus 4.5
+model: Claude Opus 4.6
 tools: ['list_dir', 'run_in_terminal', 'manage_todo_list', 'skill', 'agent']
 ---
 

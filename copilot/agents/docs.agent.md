@@ -1,8 +1,9 @@
 ---
 name: docs
 description: "Use when creating or updating documentation files (.md, .txt). Auto-invoke after significant implementation to update relevant docs."
+user-invocable: false
 agents: ['explore']
-model: Claude Haiku
+model: Claude Sonnet 4.6
 tools: ['read', 'create_file', 'edit', 'agent']
 ---
 

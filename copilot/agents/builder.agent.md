@@ -2,7 +2,7 @@
 name: builder
 description: "Implementation agent. Execute plans step by step with verification."
 agents: ['explore', 'code-reviewer', 'docs', 'refactor']
-model: claude-sonnet-4-5
+model: ['Claude Sonnet 4.6', 'GPT-5.4']
 tools: ['read', 'insert_edit_into_file', 'create_file', 'run_in_terminal', 'manage_todo_list', 'memory', 'skill', 'agent']
 ---
 

@@ -2,7 +2,7 @@
 name: planner
 description: "Structured planning agent. Research, clarify, and produce detailed actionable plans — never execute."
 agents: ['explore', 'architect']
-model: claude-sonnet-4-5
+model: ['Claude Sonnet 4.6', 'GPT-5.4']
 tools: ['agent', 'skill', 'manage_todo_list', 'read']
 ---
 

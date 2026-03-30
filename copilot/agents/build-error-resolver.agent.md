@@ -1,8 +1,9 @@
 ---
 name: build-error-resolver
 description: "Use when build, compile, or test commands fail. Auto-invoke after 2 failed build attempts."
+user-invocable: false
 agents: ['explore']
-model: Claude Sonnet 4
+model: Claude Sonnet 4.6
 tools: ['read', 'create_file', 'edit', 'run_in_terminal', 'agent', 'manage_todo_list']
 ---
 

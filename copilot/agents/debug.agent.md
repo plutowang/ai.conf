@@ -4,7 +4,7 @@ description: "Debugging agent: systematically diagnose bugs, trace errors, and i
 user-invocable: true
 disable-model-invocation: true
 agents: ['explore']
-model: Claude Opus 4.5
+model: Claude Opus 4.6
 tools: ['run_in_terminal']
 ---
 

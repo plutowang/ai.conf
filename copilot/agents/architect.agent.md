@@ -3,7 +3,7 @@ name: architect
 description: "Use when the task requires system design, architecture decisions, or evaluating multiple technical approaches. Auto-invoke from plan agent for design-heavy tasks."
 disable-model-invocation: true
 agents: ['explore']
-model: ['Claude Opus 4.5', 'GPT-5']
+model: ['Claude Opus 4.6', 'GPT-5.3-Codex']
 tools: []
 ---
 

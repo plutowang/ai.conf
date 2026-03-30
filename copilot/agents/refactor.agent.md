@@ -2,7 +2,7 @@
 name: refactor
 description: "Use when restructuring code without changing behavior. Auto-invoke when duplication, long functions, or complex conditionals are detected."
 agents: ['explore']
-model: Claude Sonnet 4
+model: Claude Opus 4.6
 tools: ['read', 'create_file', 'edit', 'run_in_terminal', 'agent']
 ---
 

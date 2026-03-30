@@ -3,7 +3,7 @@ name: explore
 description: "SOLE agent for codebase search (glob, grep) and web fetching. Use to find files, search code, or retrieve web documentation. Specify thoroughness: quick, medium, or very thorough."
 user-invocable: false
 agents: []
-model: Claude Haiku
+model: Grok Code Fast 1
 tools: ['read', 'grep_search', 'search', 'web/fetch']
 ---
 

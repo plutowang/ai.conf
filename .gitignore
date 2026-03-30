@@ -10,3 +10,4 @@ lazy-lock.json
 zig-out/
 .opencode/
 opencode/retrospective.md
+.worktrees

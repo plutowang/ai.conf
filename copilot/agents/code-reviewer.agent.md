@@ -3,7 +3,7 @@ name: code-reviewer
 description: "Use after implementation to review code for correctness, quality, and maintainability. Auto-invoke when changes touch >3 files or critical paths (auth, data, API)."
 disable-model-invocation: true
 agents: ['explore']
-model: Claude Sonnet 4
+model: Claude Sonnet 4.6
 tools: ['list_dir', 'run_in_terminal', 'skill', 'agent']
 ---
 
