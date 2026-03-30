@@ -3,7 +3,7 @@ agent: refactor
 description: Guided refactoring with test verification at each step
 ---
 
-Load the `workflow-env` skill. Analyze the specified code for refactoring opportunities. Before any changes:
+Analyze the specified code for refactoring opportunities. Before any changes:
 
 1. Identify code smells (duplication, long methods, deep nesting, god objects)
 2. Verify test coverage exists — write tests first if missing

@@ -9,7 +9,7 @@ Production-ready solutions. Polyglot: Go, Rust, Zig, TypeScript, Python, C#, Ang
 ## Workflow
 
 1. **Understand** — Read existing code before proposing changes. Delegate codebase exploration to the `explore` agent.
-2. **Plan** — Break complex tasks into steps with TodoWrite. Never skip planning for 3+ step tasks.
+2. **Plan** — Break complex tasks into steps with manage_todo_list. Never skip planning for 3+ step tasks.
 3. **Execute** — Targeted edits over full rewrites. Batch related operations. One concern per commit.
 4. **Verify** — Run tests/lints after changes. Check for regressions before declaring done.
 
@@ -60,9 +60,9 @@ Before declaring any task complete, confirm:
 
 Load relevant skills before starting work:
 
-`aws`, `react`, `angular`, `go`, `rust`, `zig`, `csharp`, `graphql`, `workflow-env`, `git`, `code-critic`, `privacy-guard`, `tailwind-v4`, `nx-monorepo`
+`aws`, `react`, `angular`, `go`, `rust`, `zig`, `csharp`, `graphql`, `git`, `code-critic`, `privacy-guard`
 
-Skills are loaded via the `/SkillName` command in chat (e.g., `/workflow-env`, `/privacy-guard`).
+Skills are loaded via the `/SkillName` command in chat (e.g., `/git`, `/privacy-guard`).
 
 ## Codebase Search & Discovery
 
@@ -143,7 +143,7 @@ When handing off to another agent, always provide structured context:
 
 ### Mandatory Patterns
 - **Read before edit**: Use `read` tool directly before any `edit`/`write` operations
-- **Explore for discovery**: Delegate glob/grep searches to `explore` subagent
+- **Explore for discovery**: Delegate search/grep_search requests to `explore` subagent
 - **Verify after changes**: Run tests/lints after implementation
 
 ### Bash Safety
@@ -162,7 +162,7 @@ When handing off to another agent, always provide structured context:
 
 ### File & Codebase Access
 
-**CRITICAL: `explore` is the SOLE agent authorized to use `glob`, `grep`, and `webfetch`.** These tools are disabled at the tool-permission level for all other agents — this is not just policy, it is enforced by the runtime.
+**CRITICAL: `explore` is the SOLE agent authorized to use `search`, `grep_search`, and `web/fetch`.** These tools are disabled at the tool-permission level for all other agents — this is not just policy, it is enforced by the runtime.
 
 **Special case — `builder` agent**: `builder` has `read` enabled because the Edit/Write tools enforce a per-session timestamp check: a file must be read by the **primary agent** before it can be edited. Subagent reads (via `explore`) do NOT satisfy this check. Therefore `builder` must call `read` directly before editing any file.
 
@@ -171,13 +171,13 @@ When handing off to another agent, always provide structured context:
 | Tool       | `explore` | `builder`                         | All other agents |
 |------------|-----------|-----------------------------------|------------------|
 | `read`     | enabled   | enabled (required for Edit/Write) | disabled         |
-| `glob`     | enabled   | disabled                          | disabled         |
-| `grep`     | enabled   | disabled                          | disabled         |
-| `webfetch` | enabled   | disabled                          | disabled         |
+| `search`       | enabled   | disabled                          | disabled         |
+| `grep_search` | enabled   | disabled                          | disabled         |
+| `web/fetch`    | enabled   | disabled                          | disabled         |
 
 #### Primary Agents
 
-The `plan`, `debug`, `docs`, `code-reviewer`, `architect`, `security-reviewer`, `build-error-resolver`, and `refactor` agents have `read`, `glob`, `grep`, and `webfetch` **disabled at the tool level**:
+The `plan`, `debug`, `docs`, `code-reviewer`, `architect`, `security-reviewer`, `build-error-resolver`, and `refactor` agents have `read`, `search`, `grep_search`, and `web/fetch` **disabled at the tool level**:
 
 - **ALL** file reading, codebase searches, and web fetches **MUST** be delegated to the `explore` subagent via the `agent` tool
 - `explore` has explicit overrides in its own prompt to ignore delegation rules, preventing infinite recursion

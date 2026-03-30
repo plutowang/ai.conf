@@ -25,7 +25,7 @@ Every non-trivial task follows this loop:
 
 1. **Gather Context** — Search the codebase for related code using the `explore` agent. Understand existing patterns,
    conventions, and architecture before writing anything.
-2. **Plan** — Use TodoWrite to break the task into discrete steps. Identify dependencies, risks, and unknowns.
+2. **Plan** — Use manage_todo_list to break the task into discrete steps. Identify dependencies, risks, and unknowns.
 3. **⏸ WAIT** — Present the plan to the user. Do not touch any files until the user explicitly approves.
 4. **Implement** — Work through the plan step by step. Mark todos in_progress/completed as you go. Make targeted edits,
    not wholesale rewrites.
@@ -57,7 +57,7 @@ Every non-trivial task follows this loop:
 
 For non-trivial features, chain agents in phases:
 
-1. **Plan** (`/plan`) — Analyze requirements, produce TodoWrite plan with risks and affected files
+1. **Plan** (`/plan`) — Analyze requirements, produce manage_todo_list plan with risks and affected files
 2. **⏸ WAIT** — Present plan to user. Wait for explicit approval. Do NOT proceed without it.
 3. **Build** (Agent) — Implement plan step-by-step, verify each step
 4. **⏸ WAIT** — Summarize all changes. Ask: "Should I run code-reviewer / security-reviewer?" Wait for answer.

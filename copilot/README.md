@@ -32,7 +32,7 @@ copilot/
 │   ├── commit.prompt.md
 │   ├── continue.prompt.md
 │   ├── deps.prompt.md
-│   ├── evolve.prompt.md
+
 │   ├── plan.prompt.md
 │   ├── refactor.prompt.md
 │   ├── review.prompt.md
@@ -45,10 +45,7 @@ copilot/
 │   │   ├── SKILL.md
 │   │   └── run-checks.sh
 │   ├── git/SKILL.md
-│   ├── nx-monorepo/SKILL.md
-│   ├── privacy-guard/SKILL.md
-│   ├── tailwind-v4/SKILL.md
-│   └── workflow-env/SKILL.md
+│   └── privacy-guard/SKILL.md
 └── .vscode/
     └── mcp.json.example          # MCP server config template
 ```
@@ -113,7 +110,7 @@ Prompts appear as slash commands in VSCode Copilot Chat:
 | `/commit`     | Generate a conventional commit message   |
 | `/continue`   | Resume from checkpoint                   |
 | `/deps`       | Audit dependencies                       |
-| `/evolve`     | Architectural review                     |
+
 | `/plan`       | Create an implementation plan            |
 | `/refactor`   | Guided refactoring                       |
 | `/review`     | Review code changes                      |
@@ -138,6 +135,93 @@ Custom agents appear in the agent picker dropdown:
 | refactor             | Guided refactoring with behavior preservation  |
 | security-reviewer    | Security audits and vulnerability detection    |
 
+## Agent Tools Reference
+
+Available tools for custom agents, specified in the agent definition YAML frontmatter as `tools: [...]`.
+
+### File & Code Operations
+
+| Tool                     | Description                                      |
+| ------------------------ | ------------------------------------------------ |
+| `search`                 | Search files by name or content                  |
+| `read`                   | Read file contents                               |
+| `apply_patch`            | Apply code diffs/patches to files                |
+| `create_file`            | Create new files                                 |
+| `create_directory`        | Create new directories                           |
+| `insert_edit_into_file`  | Insert or edit code in files                     |
+| `list_dir`               | List directory contents                          |
+| `file_search`            | Glob-based file search                           |
+| `grep_search`            | Regex or text search in files                    |
+| `semantic_search`        | Semantic code/documentation search              |
+
+### Terminal & Git
+
+| Tool                     | Description                                      |
+| ------------------------ | ------------------------------------------------ |
+| `run_in_terminal`        | Run shell commands in a persistent terminal      |
+| `get_terminal_output`    | Get output from a terminal command               |
+| `await_terminal`         | Wait for a background terminal command          |
+| `kill_terminal`          | Kill a background terminal                        |
+| `create_and_run_task`    | Create and run VS Code tasks                     |
+| `get_changed_files`      | List changed files in git                        |
+| `get_search_view_results`| Get search view results                          |
+
+### Error & Test
+
+| Tool                     | Description                                      |
+| ------------------------ | ------------------------------------------------ |
+| `get_errors`             | Get compile/lint errors                          |
+| `test_failure`           | Get test failure info                            |
+
+### Memory & Planning
+
+| Tool                     | Description                                      |
+| ------------------------ | ------------------------------------------------ |
+| `memory`                 | Persistent memory system (user/session/repo)    |
+| `manage_todo_list`       | Structured todo list for planning                |
+
+### VS Code API & Extension
+
+| Tool                           | Description                                   |
+| ------------------------------ | --------------------------------------------- |
+| `get_vscode_api`               | Query VS Code API documentation               |
+| `vscode_searchExtensions_internal` | Search VS Code extensions                 |
+| `install_extension`            | Install a VS Code extension                   |
+| `run_vscode_command`           | Run a VS Code command                         |
+
+### Symbol & Refactoring
+
+| Tool                   | Description                                      |
+| ---------------------- | ------------------------------------------------ |
+| `vscode_listCodeUsages` | Find symbol usages                             |
+| `vscode_renameSymbol`  | Rename symbols across the workspace              |
+
+### Notebook Operations
+
+| Tool                         | Description                              |
+| ---------------------------- | ---------------------------------------- |
+| `create_new_jupyter_notebook` | Create a new Jupyter notebook            |
+| `edit_notebook_file`         | Edit notebook cells                     |
+| `copilot_getNotebookSummary` | Get notebook cell summaries             |
+| `run_notebook_cell`          | Execute notebook cells                  |
+
+### Web & Visualization
+
+| Tool                  | Description                                      |
+| --------------------- | ------------------------------------------------ |
+| `fetch_webpage`       | Fetch webpage content                            |
+| `open_browser_page`   | Open a browser page                             |
+| `renderMermaidDiagram`| Render Mermaid diagrams                           |
+
+### Other
+
+| Tool                        | Description                              |
+| --------------------------- | ---------------------------------------- |
+| `terminal_last_command`     | Get last terminal command               |
+| `terminal_selection`        | Get current terminal selection           |
+| `get_project_setup_info`    | Get project setup info                   |
+| `create_new_workspace`       | Scaffold a new project/workspace         |
+
 ## MCP Servers
 
 1. Copy `.vscode/mcp.json.example` to `.vscode/mcp.json`
@@ -153,10 +237,7 @@ Skills are loaded via slash commands:
 | `/code-critic`     | Code critique and review             |
 | `/code-review`    | Full code review                     |
 | `/git`            | Git operations                       |
-| `/nx-monorepo`    | Nx monorepo management               |
 | `/privacy-guard`  | Privacy-sensitive data handling     |
-| `/tailwind-v4`    | Tailwind CSS v4 styling              |
-| `/workflow-env`   | Build/test environment setup         |
 
 ## Known Limitations
 

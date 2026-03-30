@@ -3,7 +3,7 @@ agent: agent
 description: Run full verification suite: types, lint, tests, security
 ---
 
-Load the `workflow-env` skill. Run full project verification:
+Run full project verification:
 
 1. Type checking / compilation
 2. Linting

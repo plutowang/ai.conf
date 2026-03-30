@@ -20,7 +20,7 @@ Use these tools directly:
 | Need                  | Use this TOOL   |
 | --------------------- | --------------- |
 | Search file contents  | `search/codebase` |
-| Find files by pattern | `list` (glob)    |
+| Find files by pattern | `search` (glob)    |
 | Read file contents    | `read`           |
 | Fetch web docs        | `web/fetch`      |
 

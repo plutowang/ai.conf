@@ -3,7 +3,7 @@ agent: agent
 description: Audit dependencies for vulnerabilities and outdated packages
 ---
 
-Audit project dependencies for vulnerabilities and outdated packages. Load the `workflow-env` skill first.
+Audit project dependencies for vulnerabilities and outdated packages.
 
 1. Detect the package manager (pnpm or bun — NEVER use npm)
 2. Check if this is an Nx workspace (look for nx.json)
