@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-# setup-links.sh - Symlink VSCode Copilot configuration to ~/.copilot/
+# setup-links.sh - Symlink VSCode Copilot configuration
+#
+# - agents/, instructions/, skills/ → ~/.copilot/
+# - prompts/ → ~/Library/Application Support/Code/User/prompts/ (macOS only)
 #
 # Usage:
 #   ./setup-links.sh [--dry-run] [--force] [--source <path>]
@@ -16,6 +19,7 @@ set -euo pipefail
 SOURCE_DIR=""  # Will be set dynamically
 TARGET_BASE="$HOME/.copilot"
 SUBDIRS=("agents" "instructions" "prompts" "skills")
+PROMPTS_SUBDIR="prompts"
 # Special file that goes directly in TARGET_BASE
 GLOBAL_INSTRUCTIONS="copilot-instructions.md"
 
@@ -91,6 +95,28 @@ detect_source() {
     exit 1
 }
 
+# Detect VS Code profile prompts directory (macOS only)
+detect_vscode_profile() {
+    local vscode_prompts_dir="$HOME/Library/Application Support/Code/User/prompts"
+
+    if [[ "$(uname)" != "Darwin" ]]; then
+        echo ""
+        echo "[WARNING] Prompts linking is only supported on macOS." >&2
+        echo "          On other platforms, use VSCode Profile import instead." >&2
+        return 1
+    fi
+
+    if [[ ! -d "$HOME/Library/Application Support/Code/User" ]]; then
+        echo ""
+        echo "[WARNING] VS Code profile directory not found." >&2
+        echo "          On other platforms, use VSCode Profile import instead." >&2
+        return 1
+    fi
+
+    echo "$vscode_prompts_dir"
+    return 0
+}
+
 # Check if path is a symlink
 is_symlink() {
     [[ -L "$1" ]]
@@ -155,6 +181,11 @@ main() {
     local error_count=0
 
     for subdir in "${SUBDIRS[@]}"; do
+        # Skip prompts - handled separately for VSCode profile
+        if [[ "$subdir" == "$PROMPTS_SUBDIR" ]]; then
+            continue
+        fi
+
         local source_path="$source_base/$subdir"
         local target_path="$TARGET_BASE/$subdir"
 
@@ -196,6 +227,47 @@ main() {
             ((link_count++))
         fi
     done
+
+    # Handle prompts separately (VSCode profile on macOS only)
+    local source_prompts="$source_base/$PROMPTS_SUBDIR"
+    if [[ -d "$source_prompts" ]]; then
+        local vscode_prompts_dir
+        if vscode_prompts_dir="$(detect_vscode_profile)"; then
+            echo "[$PROMPTS_SUBDIR] (VSCode profile)"
+
+            if is_symlink "$vscode_prompts_dir"; then
+                local current_target
+                current_target="$(readlink "$vscode_prompts_dir")"
+                if [[ "$current_target" != "$source_prompts" ]]; then
+                    echo "  [~] Updating existing link..."
+                    rm "$vscode_prompts_dir"
+                    create_link "$source_prompts" "$vscode_prompts_dir"
+                    ((link_count++))
+                else
+                    echo "  [OK] Already linked correctly: $vscode_prompts_dir -> $source_prompts"
+                    ((skip_count++))
+                fi
+            elif exists "$vscode_prompts_dir"; then
+                if $FORCE; then
+                    echo "  [*] Exists as real directory, backing up..."
+                    backup "$vscode_prompts_dir"
+                    create_link "$source_prompts" "$vscode_prompts_dir"
+                    ((link_count++))
+                else
+                    echo "  [-] Exists as real directory (use --force to replace)"
+                    ((skip_count++))
+                fi
+            else
+                create_link "$source_prompts" "$vscode_prompts_dir"
+                ((link_count++))
+            fi
+        else
+            # Non-macOS or VSCode not found - skip prompts
+            echo "[$PROMPTS_SUBDIR]"
+            echo "  [-] Skipped (macOS/VSCode profile required)"
+            ((skip_count++))
+        fi
+    fi
 
     # Handle global instructions file (copilot-instructions.md)
     local source_instructions="$source_base/$GLOBAL_INSTRUCTIONS"

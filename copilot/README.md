@@ -70,9 +70,9 @@ This creates the following symlinks:
 
 - `~/.copilot/agents/` -> `~/path/to/ai.conf/copilot/agents/`
 - `~/.copilot/instructions/` -> `~/path/to/ai.conf/copilot/instructions/`
-- `~/.copilot/prompts/` -> `~/path/to/ai.conf/copilot/prompts/`
 - `~/.copilot/skills/` -> `~/path/to/ai.conf/copilot/skills/`
 - `~/.copilot/copilot-instructions.md` -> `~/path/to/ai.conf/copilot/copilot-instructions.md`
+- **macOS only:** `~/Library/Application Support/Code/User/prompts/` -> `~/path/to/ai.conf/copilot/prompts/`
 
 ### Option 2: Manual Symlink
 
@@ -80,9 +80,12 @@ This creates the following symlinks:
 mkdir -p ~/.copilot
 ln -s ~/path/to/ai.conf/copilot/agents ~/.copilot/agents
 ln -s ~/path/to/ai.conf/copilot/instructions ~/.copilot/instructions
-ln -s ~/path/to/ai.conf/copilot/prompts ~/.copilot/prompts
 ln -s ~/path/to/ai.conf/copilot/skills ~/.copilot/skills
 ln -s ~/path/to/ai.conf/copilot/copilot-instructions.md ~/.copilot/copilot-instructions.md
+
+# macOS only - VSCode profile prompts directory:
+mkdir -p ~/Library/Application\ Support/Code/User/prompts
+ln -s ~/path/to/ai.conf/copilot/prompts ~/Library/Application\ Support/Code/User/prompts/
 ```
 
 ### Option 3: VSCode Profile
@@ -100,6 +103,8 @@ Copy the contents into your VSCode profile settings folder:
 3. Open Copilot Chat
 4. Try a prompt like `/plan` or `/review`
 5. Select a custom agent from the agent picker dropdown
+
+**Note:** Prompts symlinking requires macOS. On other platforms, prompts must be manually copied to your VSCode profile.
 
 ## Prompts Reference
 
