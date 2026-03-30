@@ -218,7 +218,7 @@ If diff is very large, ask for confirmation before proceeding:
 Run the bundled check script. It auto-detects the project type (Nx, Rust, Go, Node.js) and runs the appropriate linters, formatters, and tests with a 5-minute timeout per check. Failures are reported but do not stop the review.
 
 ```bash
-.github/skills/code-review/run-checks.sh "$MERGE_BASE" [WORKTREE_PATH]
+~/.copilot/skills/code-review/run-checks.sh "$MERGE_BASE" [WORKTREE_PATH]
 ```
 
 Capture the output and include results in the review report.

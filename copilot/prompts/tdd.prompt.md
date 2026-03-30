@@ -9,8 +9,12 @@ Follow strict Test-Driven Development for the following task.
 2. GREEN: Write the minimal code to make the test pass
 3. REFACTOR: Clean up while keeping tests green
 
-Repeat for each unit of functionality. Never write implementation before a failing test exists. Use manage_todo_list to track
-each red-green-refactor cycle.
+Repeat for each unit of functionality. Never write implementation before a failing test exists.
+
+Use manage_todo_list to track each cycle with this naming format:
+- `[RED] <test name>` → write failing test
+- `[GREEN] <test name>` → write minimal passing code
+- `[REFACTOR] <test name>` → clean up
 
 After each GREEN phase, run coverage to verify critical paths stay at 80%+: `go test -cover`, `cargo tarpaulin`,
 `vitest --coverage`, `pytest --cov`.

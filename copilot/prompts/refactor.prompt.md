@@ -1,14 +1,8 @@
 ---
 agent: refactor
-description: Guided refactoring with test verification at each step
+description: Analyze code for refactoring opportunities and produce a structured refactor plan
 ---
 
-Analyze the specified code for refactoring opportunities. Before any changes:
-
-1. Identify code smells (duplication, long methods, deep nesting, god objects)
-2. Verify test coverage exists — write tests first if missing
-3. Plan small, atomic refactoring steps
-4. Execute each step and verify tests still pass
-5. Never change external behavior
+Analyze the specified code and produce a structured refactor plan. Do NOT modify any files — planning only.
 
 Target: $ARGUMENTS

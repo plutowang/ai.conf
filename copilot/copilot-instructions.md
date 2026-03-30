@@ -60,7 +60,7 @@ Before declaring any task complete, confirm:
 
 Load relevant skills before starting work:
 
-`aws`, `react`, `angular`, `go`, `rust`, `zig`, `csharp`, `graphql`, `git`, `code-critic`, `privacy-guard`
+`git`, `code-critic`, `code-review`, `privacy-guard`
 
 Skills are loaded via the `/SkillName` command in chat (e.g., `/git`, `/privacy-guard`).
 

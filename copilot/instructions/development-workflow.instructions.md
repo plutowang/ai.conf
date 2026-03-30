@@ -12,7 +12,9 @@ human approval. When uncertain, the agent presents options and a recommendation 
 **Hard rules:**
 
 - NEVER run `git commit`, `git push`, or `git add` — output a commit message and stop
-- NEVER hand off to a subagent without asking first — except `explore`, which may be used automatically as needed
+- NEVER hand off to a subagent without asking first — except:
+  - `explore`, which may be used automatically as needed for codebase search
+  - `code-reviewer`, `security-reviewer`, and `docs` agents, which the `builder` may invoke automatically after implementation (these are read-only review agents; the builder must still ask before applying any changes they suggest)
 - NEVER start writing code before the plan is approved
 
 **Feedback & Evolution:**

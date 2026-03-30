@@ -32,7 +32,8 @@ copilot/
 │   ├── commit.prompt.md
 │   ├── continue.prompt.md
 │   ├── deps.prompt.md
-
+│   ├── docs.prompt.md
+│   ├── fix.prompt.md
 │   ├── plan.prompt.md
 │   ├── refactor.prompt.md
 │   ├── review.prompt.md
@@ -110,20 +111,21 @@ Copy the contents into your VSCode profile settings folder:
 
 Prompts appear as slash commands in VSCode Copilot Chat:
 
-| Prompt      | Description                              |
-| ----------- | ---------------------------------------- |
-| `/build-fix`  | Fix build errors                         |
-| `/checkpoint` | Save session progress                    |
-| `/commit`     | Generate a conventional commit message   |
-| `/continue`   | Resume from checkpoint                   |
-| `/deps`       | Audit dependencies                       |
-
-| `/plan`       | Create an implementation plan            |
-| `/refactor`   | Guided refactoring                       |
-| `/review`     | Review code changes                      |
-| `/security`   | Security audit                           |
-| `/tdd`        | Test-driven development workflow         |
-| `/verify`     | Run verification suite                   |
+| Prompt        | Description                                        |
+| ------------- | -------------------------------------------------- |
+| `/build-fix`  | Detect build system, fix errors until clean        |
+| `/checkpoint` | Save session progress summary for continuity       |
+| `/commit`     | Generate a conventional commit message             |
+| `/continue`   | Resume work from a `/checkpoint` summary           |
+| `/deps`       | Audit dependencies for vulnerabilities             |
+| `/docs`       | Generate or update documentation                   |
+| `/fix`        | Apply a targeted fix for a specific error or issue |
+| `/plan`       | Create a structured implementation plan            |
+| `/refactor`   | Analyze code and produce a structured refactor plan |
+| `/review`     | Review branch changes or critique specific files   |
+| `/security`   | Security audit against OWASP Top 10                |
+| `/tdd`        | Implement a feature using TDD red-green-refactor   |
+| `/verify`     | Run full verification suite: types, lint, tests    |
 
 ## Custom Agents
 
@@ -150,16 +152,19 @@ Available tools for custom agents, specified in the agent definition YAML frontm
 
 | Tool                     | Description                                      |
 | ------------------------ | ------------------------------------------------ |
-| `search`                 | Search files by name or content                  |
+| `search`                 | Find files by glob pattern                       |
+| `search/codebase`        | Search file contents by keyword or regex         |
+| `search/usages`          | Find all usages of a symbol across the codebase  |
 | `read`                   | Read file contents                               |
 | `apply_patch`            | Apply code diffs/patches to files                |
 | `create_file`            | Create new files                                 |
-| `create_directory`        | Create new directories                           |
+| `create_directory`       | Create new directories                           |
 | `insert_edit_into_file`  | Insert or edit code in files                     |
+| `edit`                   | Edit file contents (alternative to insert_edit)  |
 | `list_dir`               | List directory contents                          |
 | `file_search`            | Glob-based file search                           |
-| `grep_search`            | Regex or text search in files                    |
-| `semantic_search`        | Semantic code/documentation search              |
+| `grep_search`            | Regex or text search in files (legacy)           |
+| `semantic_search`        | Semantic code/documentation search               |
 
 ### Terminal & Git
 

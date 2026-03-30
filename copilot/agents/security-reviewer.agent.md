@@ -1,7 +1,7 @@
 ---
 name: security-reviewer
 description: "Use when code touches authentication, authorization, cryptography, user input handling, or secrets management. Auto-invoke after security-sensitive changes."
-disable-model-invocation: true
+user-invocable: false
 agents: ['explore']
 model: Claude Opus 4.6
 tools: ['list_dir', 'run_in_terminal', 'manage_todo_list', 'skill', 'agent']
@@ -46,6 +46,8 @@ For each finding:
 ## File & Codebase Access
 
 **CRITICAL**: You have NO `read`, `search`, `grep_search`, or `fetch_webpage` tools. You MUST delegate ALL file reading and codebase searches to the `explore` agent via the `agent` tool.
+
+`list_dir` is available for quick directory listing (e.g., listing files in a changed directory) without going through `explore`.
 
 When you need to review code:
 

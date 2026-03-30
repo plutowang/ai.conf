@@ -3,9 +3,16 @@ agent: security-reviewer
 description: Security audit against OWASP Top 10 and common vulnerabilities
 ---
 
-Hand off this task to the `security-reviewer` agent. Load the `privacy-guard` skill. Perform a security audit on the
-specified target. Check for: hardcoded secrets, SQL/command injection, XSS, insecure deserialization, broken auth,
-missing input validation, overly permissive CORS, missing rate limiting, sensitive data in logs, unpatched dependencies.
+Load the `privacy-guard` skill. Perform a security audit on the specified target.
+
+Check for:
+- Hardcoded secrets, API keys, or credentials
+- SQL/command injection and XSS vulnerabilities
+- Insecure deserialization and broken authentication
+- Missing input validation and overly permissive CORS
+- Missing rate limiting and sensitive data in logs
+- Unpatched dependencies with known CVEs
+
 Output findings as: SEVERITY | FILE:LINE | DESCRIPTION | RECOMMENDATION
 
 Target: $ARGUMENTS
