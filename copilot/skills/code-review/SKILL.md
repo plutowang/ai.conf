@@ -278,7 +278,9 @@ After completing the review:
 **Frame all feedback as questions, not commands.**
 
 ❌ **Don't write:**
+
 - "You should use early returns here"
 
 ✅ **Do write:**
+
 - "Could this be simplified with an early return?"

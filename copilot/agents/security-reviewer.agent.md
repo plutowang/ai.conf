@@ -48,6 +48,7 @@ For each finding:
 **CRITICAL**: You have NO `read`, `search`, `grep_search`, or `fetch_webpage` tools. You MUST delegate ALL file reading and codebase searches to the `explore` agent via the `agent` tool.
 
 When you need to review code:
+
 1. Delegate to `explore` via `agent` with the security-sensitive code to audit
 2. Use the results from `explore` to perform your security analysis
 

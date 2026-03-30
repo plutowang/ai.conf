@@ -142,16 +142,19 @@ When handing off to another agent, always provide structured context:
 ## Tool Usage Guidelines
 
 ### Mandatory Patterns
+
 - **Read before edit**: Use `read` tool directly before any `edit`/`write` operations
 - **Explore for discovery**: Delegate search/grep_search requests to `explore` subagent
 - **Verify after changes**: Run tests/lints after implementation
 
 ### Bash Safety
+
 - **NEVER execute**: `rm -rf /*`, destructive git force operations, factory resets
 - **ALWAYS verify**: Check file existence before deletion
 - **Use version control**: Suggest commits, never auto-commit
 
 ### Prohibited Patterns
+
 - No debug statements (console.log, dbg!, fmt.Println) in production code
 - No hardcoded credentials, secrets, or API keys
 - No new dependencies without user approval
@@ -201,7 +204,7 @@ Do not use `bash` with `cat`, `head`, `tail`, or similar commands to read file c
 
 **NEVER** run `python` or `python3` directly. It is blocked at the permission level. Running Python scripts can silently exfiltrate secrets via network calls, environment variable reads, or file system access — even for seemingly innocent tasks like JSON validation.
 
-**Preferred Alternative: jq**
+### Preferred Alternative: jq
 
 For JSON tasks, always prefer `jq`:
 
@@ -216,7 +219,7 @@ echo '{"key": "val"}' | jq .
 jq '.key' file.json
 ```
 
-**Exception: Docker Sandbox**
+### Exception: Docker Sandbox
 
 If Python is absolutely required, run it **inline** inside an isolated Docker container — no script file needed:
 

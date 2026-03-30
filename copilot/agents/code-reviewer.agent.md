@@ -38,6 +38,7 @@ End with: **Approved** / **Approved with suggestions** / **Changes requested**
 **CRITICAL**: You have NO `read`, `search`, `grep_search`, or `fetch_webpage` tools. You MUST delegate ALL file reading and codebase searches to the `explore` agent via the `agent` tool.
 
 When you need to review code:
+
 1. Delegate to `explore` via `agent` with the files/changes to review
 2. Use the results from `explore` to perform your code review
 

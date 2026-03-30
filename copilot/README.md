@@ -4,7 +4,7 @@ User-level configuration for VSCode Copilot agents, prompts, and skills.
 
 ## Directory Structure
 
-```
+```text
 copilot/
 ├── setup-links.sh                # Symlink setup script
 ├── copilot-instructions.md       # Global always-on instructions
@@ -67,6 +67,7 @@ Run the setup script to create symlinks in `~/.copilot/`:
 ```
 
 This creates the following symlinks:
+
 - `~/.copilot/agents/` -> `~/path/to/ai.conf/copilot/agents/`
 - `~/.copilot/instructions/` -> `~/path/to/ai.conf/copilot/instructions/`
 - `~/.copilot/prompts/` -> `~/path/to/ai.conf/copilot/prompts/`
@@ -87,6 +88,7 @@ ln -s ~/path/to/ai.conf/copilot/copilot-instructions.md ~/.copilot/copilot-instr
 ### Option 3: VSCode Profile
 
 Copy the contents into your VSCode profile settings folder:
+
 - macOS: `~/Library/Application Support/Code/User/`
 - Linux: `~/.config/Code/User/`
 - Windows: `%APPDATA%\Code\User\`

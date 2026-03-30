@@ -6,7 +6,7 @@ Follows the `*.conf` naming convention from [`term.conf`](https://github.com/plu
 
 ## Structure
 
-```
+```text
 ai.conf/
 ├── copilot/      # GitHub Copilot (VS Code) configuration & migration guide
 ├── cursor/       # (future) Cursor rules & configuration

@@ -26,10 +26,8 @@ description: Use when explicitly asked to critique code, find bugs, audit code q
 
 ## 3. Examples
 
-<example>
-User: "Critique this function."
-Agent:
-"**Critical:** SQL Injection vulnerability in line 4.
-**Warning:** You are iterating the array twice (O(2n)).
-**Suggestion:** Use a parameterized query."
-</example>
+> **User:** "Critique this function."
+>
+> **Agent:** "**Critical:** SQL Injection vulnerability in line 4.
+> **Warning:** You are iterating the array twice (O(2n)).
+> **Suggestion:** Use a parameterized query."
