@@ -1,0 +1,72 @@
+{
+    "version": 1,
+    "editor": {
+        "vimMode": true
+    },
+    "permissions": {
+        "allow": [
+            "Shell(ls)",
+            "Shell(git -C)",
+            "Shell(curl localhost*)",
+            "Shell(curl http://localhost*)",
+            "Shell(curl https://localhost*)",
+            "Shell(curl 127.0.0.1*)",
+            "Shell(curl http://127.0.0.1*)",
+            "Shell(curl https://127.0.0.1*)"
+        ],
+        "deny": [
+            "Read(**/.env)",
+            "Read(**/.env.*)",
+            "Read(**/id_rsa)",
+            "Read(**/*.pem)",
+            "Read(**/*.key)",
+            "Read(**/*.p12)",
+            "Read(**/*.pfx)",
+            "Read(**/secrets.*)",
+            "Read(**/credentials)",
+            "Read(**/credentials.json)",
+            "Read(**/.kube/config)",
+            "Read(**/.npmrc)",
+            "Read(**/.netrc)",
+            "Shell(wget*)",
+            "Shell(sudo*)",
+            "Shell(eval*)",
+            "Shell(python*)",
+            "Shell(python3*)",
+            "Shell(git commit*)",
+            "Shell(git push*)",
+            "Shell(git rebase*)",
+            "Shell(git -C* commit*)",
+            "Shell(git -C* push*)",
+            "Shell(git -C* rebase*)"
+        ]
+    },
+    "hasChangedDefaultModel": true,
+    "model": {
+        "modelId": "default",
+        "displayModelId": "auto",
+        "displayName": "Auto",
+        "displayNameShort": "Auto",
+        "aliases": [
+            "auto"
+        ],
+        "maxMode": false
+    },
+    "network": {
+        "useHttp1ForAgent": false
+    },
+    "approvalMode": "allowlist",
+    "sandbox": {
+        "mode": "enabled",
+        "networkAccess": "user_config_only"
+    },
+    "attribution": {
+        "attributeCommitsToAgent": true,
+        "attributePRsToAgent": true
+    },
+    "display": {
+        "showLineNumbers": true,
+        "showThinkingBlocks": false,
+        "showStatusIndicators": false
+    }
+}

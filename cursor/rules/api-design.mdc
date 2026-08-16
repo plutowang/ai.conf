@@ -1,0 +1,57 @@
+---
+description: "Apply when working on API routes, controllers, handlers, or endpoint definitions"
+globs: "**/*route*, **/*controller*, **/*handler*, **/*endpoint*, **/api/**, **/*middleware*, **/*.graphql, **/rest/**"
+alwaysApply: false
+---
+# API Design Standards
+
+Apply these standards when designing or modifying API endpoints.
+
+<execution_protocol>
+**Interlock**: When designing new endpoints or modifying API contracts, you MUST delegate to `/architect` to evaluate the design.
+</execution_protocol>
+
+<standards>
+**REST Conventions**
+- Resources are **nouns** (plural): `/users`, `/orders`, `/products`.
+- Actions use HTTP verbs: `GET` (read), `POST` (create), `PUT/PATCH` (update), `DELETE` (remove).
+- URL paths use **kebab-case**: `/user-profiles`, not `/userProfiles`.
+- Version APIs explicitly in the URL path: `/api/v1/users`.
+- Use proper HTTP status codes: `201 Created`, `204 No Content`, `404 Not Found`, `409 Conflict`, `422 Unprocessable Entity`.
+
+**Pagination**
+- Use **cursor-based pagination** for large collections (not offset-based).
+- Response format: `{ data: [...], cursor: { next: "...", hasMore: true } }`.
+- Include `limit` parameter with a sensible default and maximum.
+
+**Idempotency**
+- All `PUT` and `DELETE` operations must be idempotent.
+- For non-idempotent `POST` operations, support an **idempotency key** header.
+
+**Error Format**
+- Use a consistent error response structure across all endpoints:
+
+  ```json
+  { "error": { "code": "VALIDATION_ERROR", "message": "Human-readable description", "details": [...] } }
+  ```
+
+- Never expose stack traces, internal paths, or implementation details in error responses.
+
+**Versioning & Evolution**
+- Deprecate before removing — provide migration guides and sunset timelines.
+- All dates/times in **ISO 8601** format with timezone.
+
+**Validation & Security**
+- Validate all request bodies with a schema (JSON Schema, Zod, or equivalent).
+- Reject early with descriptive error messages. Sanitize before storage.
+- Apply **rate limiting** on all public and authentication endpoints.
+- Return rate limit headers: `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`.
+
+**GraphQL (when applicable)**
+- Schema-first design: define the schema before writing resolvers.
+- Use **Relay-style cursor pagination** for connections.
+- Use **dataloaders** to prevent N+1 query problems.
+- Enforce **query depth limits** and **query complexity analysis**.
+- Return errors as **union types** in the schema, not as GraphQL errors.
+
+</standards>

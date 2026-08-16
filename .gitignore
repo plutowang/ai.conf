@@ -11,3 +11,4 @@ zig-out/
 .opencode/
 opencode/retrospective.md
 .worktrees
+docs

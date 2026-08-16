@@ -1,0 +1,633 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "design",
+  "share": "disabled",
+  "subagent_depth": 3,
+  "plugin": [
+    "./plugins/design-reminders.js",
+    "./plugins/zmask-pii.js",
+    "@tarquinen/opencode-dcp@3.1.14",
+    "@tarquinen/opencode-smart-title@0.1.7",
+    "@franlol/opencode-md-table-formatter@0.0.6",
+    "cc-safety-net@2.0.0",
+    "@ramtinj95/opencode-tokenscope@1.8.1"
+  ],
+  "autoupdate": false,
+  "instructions": [
+    "./rules/critical-invariants.md",
+    "./rules/agent-constraints.md"
+  ],
+  "permission": {
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "**/.env": "deny",
+      "**/.env.*": "deny",
+      "**/env.sh": "allow",
+      "**/id_rsa": "deny",
+      "**/*.pem": "deny",
+      "**/*.key": "deny",
+      "**/*.p12": "deny",
+      "**/*.pfx": "deny",
+      "**/secrets.*": "deny",
+      "**/.kube/config": "deny",
+      "**/credentials": "deny",
+      "**/credentials.json": "deny",
+      "**/.npmrc": "deny",
+      "**/.netrc": "deny",
+      "**/*.pdf": "deny",
+      "**/*.xlsx": "deny",
+      "**/*.docx": "deny",
+      "**/*.csv": "deny",
+      "**/.env.example": "allow",
+      "**/.env.sample": "allow",
+      "*.env.example": "allow",
+      "*.env.sample": "allow",
+      "**/env.example.sh": "allow",
+      "**/config.example.*": "allow"
+    },
+    "edit": "ask",
+    "glob": "deny",
+    "grep": "deny",
+    "task": "ask",
+    "webfetch": "allow",
+    "websearch": "allow",
+    "skill": "allow",
+    "lsp": "allow",
+    "doom_loop": "allow",
+    "external_directory": {
+      "*": "deny",
+      "~/projects/**": "allow",
+      "~/.config/opencode/skills/**": "allow",
+      "/var/folders/**/T/opencode/tokenscope-*/**": "allow"
+    },
+    "bash": {
+      "*": "ask",
+      "curl*": "ask",
+      "curl localhost*": "allow",
+      "curl http://localhost*": "allow",
+      "curl https://localhost*": "allow",
+      "curl 127.0.0.1*": "allow",
+      "curl http://127.0.0.1*": "allow",
+      "curl https://127.0.0.1*": "allow",
+      "wget*": "deny",
+      "sudo*": "deny",
+      "eval*": "deny",
+      "python": "deny",
+      "python3": "deny",
+      "python *": "deny",
+      "python3 *": "deny",
+      "npm*": "deny",
+      "grep*": "deny",
+      "rg*": "deny",
+      "find*": "deny",
+      "fd*": "deny",
+      "locate*": "deny",
+      "ls*": "allow",
+      "wc*": "allow",
+      "sort*": "allow",
+      "git commit*": "deny",
+      "git push*": "deny",
+      "git rebase*": "deny",
+      "git stash*": "deny",
+      "git status": "allow",
+      "git diff*": "allow",
+      "git log*": "allow",
+      "git show*": "allow",
+      "git branch*": "allow",
+      "git fetch*": "allow",
+      "git rev-parse*": "allow",
+      "git symbolic-ref*": "allow",
+      "git show-ref*": "allow",
+      "git merge-base*": "allow",
+      "git worktree*": "ask",
+      "git worktree list*": "allow",
+      "go test*": "allow",
+      "go vet*": "allow",
+      "go fmt*": "allow",
+      "pwd": "allow",
+      "rm -rf .worktrees/*": "ask",
+      "node*": "deny",
+      "ruby*": "deny",
+      "perl*": "deny",
+      "php*": "deny",
+      "pip*": "deny",
+      "pip3*": "deny",
+      "gem*": "deny",
+      "brew*": "deny",
+      "apt*": "deny",
+      "apt-get*": "deny",
+      "cargo install*": "deny",
+      "go install*": "deny",
+      "pnpm install*": "ask",
+      "pnpm install -g*": "deny",
+      "pnpm add -g*": "deny",
+      "pnpm lint*": "allow",
+      "pnpm format:check": "allow",
+      "pnpm format:write*": "allow",
+      "pnpm test*": "allow",
+      "pnpm run*": "ask",
+      "pnpm run build*": "allow",
+      "pnpm run test*": "allow",
+      "pnpm run lint*": "allow",
+      "pnpm run format*": "allow",
+      "pnpm run dev*": "allow",
+      "pnpm dlx*": "ask",
+      "docker*": "ask",
+      "docker run --rm --network none --read-only --user 65534:65534 -i python:3-alpine@sha256:05b2b8b732ecd268fee8727a369f936f022d1321b59befd13c30ede22769dcdc*": "allow",
+      "docker* --privileged*": "deny",
+      "docker* --cap-add*": "deny",
+      "docker* --device*": "deny",
+      "docker* --pid*": "deny",
+      "docker* --ipc*": "deny",
+      "docker* --volume*": "deny",
+      "docker* --mount*": "deny",
+      "docker* -v *": "deny",
+      "pnpm nx*": "ask",
+      "pnpm nx format:*": "allow",
+      "pnpm nx run-many --target=lint*": "allow",
+      "pnpm nx run-many --target=test*": "allow",
+      "pnpm nx run-many --target=build*": "allow",
+      "pnpm nx affected*": "allow",
+      "pnpm nx graph*": "allow",
+      "pnpm nx show*": "allow",
+      "cargo clippy*": "allow",
+      "cargo check*": "allow",
+      "cargo fmt*": "allow",
+      "gtimeout*": "ask",
+      "zig build*": "allow",
+      "zig test*": "allow",
+      "zig fmt*": "allow",
+      "dotnet build*": "allow",
+      "dotnet test*": "allow",
+      "dotnet run*": "ask",
+      "dotnet format*": "allow",
+      "make*": "ask",
+      "just*": "ask",
+      "cargo test*": "allow",
+      "cargo build*": "allow"
+    }
+  },
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "reserved": 20000
+  },
+  "watcher": {
+    "ignore": [
+      "**/{.git,node_modules,zig-out,zig-cache,target,dist,build,.cache,.DS_Store}/**",
+      "**/{.next,.svelte-kit,.vscode,.idea,coverage,.opencode}/**",
+      "**/{Cargo.lock,package-lock.json,yarn.lock,pnpm-lock.yaml,lazy-lock.json}",
+      "**/*.{log,pdf,docx,doc,pages,odt,rtf,txt,xlsx,xls,csv,numbers,ppt,pptx,key,sqlite}",
+      "**/{.env*,env.sh,id_rsa,*.pem,*.key,secrets.*,.kube/config}"
+    ]
+  },
+  "lsp": {
+    "zls": {
+      "command": [
+        "zls"
+      ],
+      "extensions": [
+        ".zig",
+        ".zon"
+      ],
+      "initialization": {
+        "enable_snippets": true,
+        "enable_ast_check_diagnostics": true,
+        "enable_autofix": true,
+        "enable_import_embedfile_argument_completions": true
+      }
+    },
+    "gopls": {
+      "command": [
+        "gopls"
+      ],
+      "extensions": [
+        ".go",
+        ".mod",
+        ".work"
+      ],
+      "initialization": {
+        "usePlaceholders": true,
+        "staticcheck": true,
+        "gofumpt": true,
+        "analyses": {
+          "unusedparams": true,
+          "shadow": true,
+          "nilness": true
+        },
+        "codelenses": {
+          "gc_details": true,
+          "generate": true,
+          "regenerate_cgo": true,
+          "tidy": true,
+          "upgrade_dependency": true,
+          "vendor": true
+        }
+      }
+    },
+    "rust": {
+      "command": [
+        "rust-analyzer"
+      ],
+      "extensions": [
+        ".rs"
+      ],
+      "initialization": {
+        "checkOnSave": true,
+        "check": {
+          "allFeatures": true,
+          "overrideCommand": [
+            "cargo",
+            "clippy",
+            "--workspace",
+            "--message-format=json",
+            "--all-targets",
+            "--all-features"
+          ]
+        },
+        "cargo": {
+          "allFeatures": true,
+          "buildScripts": {
+            "enable": true
+          }
+        },
+        "procMacro": {
+          "enable": true
+        },
+        "diagnostics": {
+          "enable": true,
+          "enableExperimental": true
+        }
+      }
+    },
+    "typescript": {
+      "command": [
+        "typescript-language-server",
+        "--stdio"
+      ],
+      "extensions": [
+        ".ts",
+        ".tsx",
+        ".js",
+        ".jsx",
+        ".mjs",
+        ".cjs"
+      ],
+      "initialization": {
+        "preferences": {
+          "disableSuggestions": false,
+          "quotePreference": "double",
+          "includeCompletionsForModuleExports": true,
+          "includeCompletionsForImportStatements": true,
+          "includeCompletionsWithSnippetText": true,
+          "includeAutomaticOptionalChainCompletions": true
+        },
+        "suggest": {
+          "includeCompletionsForModuleExports": true
+        }
+      }
+    },
+    "python": {
+      "command": [
+        "pylsp"
+      ],
+      "extensions": [
+        ".py"
+      ],
+      "initialization": {
+        "plugins": {
+          "pycodestyle": {
+            "enabled": false
+          },
+          "mccabe": {
+            "enabled": false
+          },
+          "pyflakes": {
+            "enabled": true
+          },
+          "pylsp_mypy": {
+            "enabled": true,
+            "live_mode": false
+          },
+          "pylsp_black": {
+            "enabled": true
+          },
+          "pylsp_isort": {
+            "enabled": true
+          }
+        }
+      }
+    },
+    "bash": {
+      "command": [
+        "bash-language-server",
+        "start"
+      ],
+      "extensions": [
+        ".sh",
+        ".bash",
+        ".zsh"
+      ],
+      "initialization": {
+        "shellCheckPath": "shellcheck",
+        "explainshellEndpoint": ""
+      }
+    },
+    "json": {
+      "command": [
+        "vscode-json-language-server",
+        "--stdio"
+      ],
+      "extensions": [
+        ".json",
+        ".jsonc"
+      ],
+      "initialization": {
+        "provideFormatter": true,
+        "schemas": [
+          {
+            "fileMatch": [
+              "package.json"
+            ],
+            "url": "https://json.schemastore.org/package.json"
+          },
+          {
+            "fileMatch": [
+              "tsconfig.json",
+              "tsconfig.*.json"
+            ],
+            "url": "https://json.schemastore.org/tsconfig.json"
+          }
+        ]
+      }
+    },
+    "yaml": {
+      "command": [
+        "yaml-language-server",
+        "--stdio"
+      ],
+      "extensions": [
+        ".yml",
+        ".yaml"
+      ],
+      "initialization": {
+        "yaml": {
+          "validate": true,
+          "hover": true,
+          "completion": true,
+          "customTags": [
+            "!reference sequence",
+            "!reference mapping",
+            "!reference scalar"
+          ],
+          "schemas": {
+            "https://json.schemastore.org/github-workflow.json": [
+              ".github/workflows/*.yml",
+              ".github/workflows/*.yaml"
+            ],
+            "https://json.schemastore.org/github-action.json": [
+              ".github/action.yml",
+              ".github/action.yaml"
+            ],
+            "https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json": [
+              ".gitlab-ci.yml",
+              ".gitlab-ci.yaml",
+              "**/.gitlab-ci.yml",
+              "**/.gitlab-ci.yaml",
+              "**/gitlab-ci.yml",
+              "**/gitlab-ci.yaml",
+              "**/*.gitlab-ci.yml",
+              "**/*.gitlab-ci.yaml"
+            ],
+            "https://json.schemastore.org/docker-compose.json": [
+              "docker-compose.yml",
+              "docker-compose.yaml",
+              "docker-compose.*.yml",
+              "docker-compose.*.yaml",
+              "compose.yml",
+              "compose.yaml"
+            ],
+            "https://json.schemastore.org/ansible-playbook.json": [
+              "**/playbooks/*.yml",
+              "**/playbooks/*.yaml",
+              "**/ansible/*.yml",
+              "**/ansible/*.yaml",
+              "playbook.yml",
+              "playbook.yaml",
+              "site.yml",
+              "site.yaml"
+            ],
+            "https://json.schemastore.org/kustomization.json": [
+              "kustomization.yml",
+              "kustomization.yaml"
+            ],
+            "https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.28.0-standalone-strict/all.json": [
+              "**/k8s/**/*.yml",
+              "**/k8s/**/*.yaml",
+              "**/kubernetes/**/*.yml",
+              "**/kubernetes/**/*.yaml",
+              "**/manifests/**/*.yml",
+              "**/manifests/**/*.yaml"
+            ],
+            "https://json.schemastore.org/azure-pipelines.json": [
+              "azure-pipelines.yml",
+              "azure-pipelines.yaml",
+              ".azure-pipelines.yml",
+              ".azure-pipelines.yaml"
+            ],
+            "https://json.schemastore.org/codecov.json": [
+              ".codecov.yml",
+              ".codecov.yaml",
+              "codecov.yml",
+              "codecov.yaml"
+            ],
+            "https://json.schemastore.org/pre-commit-config.json": [
+              ".pre-commit-config.yaml",
+              ".pre-commit-config.yml"
+            ]
+          },
+          "format": {
+            "enable": true,
+            "singleQuote": false,
+            "bracketSpacing": true,
+            "proseWrap": "preserve",
+            "printWidth": 80
+          }
+        },
+        "redhat": {
+          "telemetry": {
+            "enabled": false
+          }
+        }
+      }
+    }
+  },
+  "mcp": {
+    "sequential-thinking": {
+      "type": "local",
+      "command": [
+        "pnpm",
+        "dlx",
+        "@modelcontextprotocol/server-sequential-thinking@latest"
+      ],
+      "enabled": true
+    },
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      }
+    },
+    "gitlab": {
+      "type": "local",
+      "command": [
+        "pnpm",
+        "dlx",
+        "mcp-remote@latest",
+        "{env:GITLAB_INSTANCE_URL}/api/v4/mcp"
+      ],
+      "enabled": false
+    },
+    "excel": {
+      "type": "local",
+      "command": [
+        "pnpm",
+        "dlx",
+        "@negokaz/excel-mcp-server@latest"
+      ],
+      "environment": {
+        "EXCEL_MCP_PAGING_CELLS_LIMIT": "4000"
+      },
+      "enabled": false
+    }
+  },
+  "provider": {
+    "deepseek/deepseek-v4-flash": {
+      "limit": {
+        "context": 1048576,
+        "output": 384000
+      }
+    },
+    "deepseek/deepseek-v4-pro": {
+      "limit": {
+        "context": 1048576,
+        "output": 384000
+      }
+    },
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (local)",
+      "options": {
+        "baseURL": "http://localhost:11434/v1"
+      },
+      "models": {
+        "gpt-oss:20b": {
+          "name": "GPT OSS 20b",
+          "tool_call": true
+        },
+        "qwen3:14b": {
+          "name": "Qwen 3 14b",
+          "tool_call": true
+        },
+        "gemma4:latest": {
+          "name": "Gemma 4 (latest)",
+          "tool_call": true
+        }
+      }
+    },
+    "openrouter": {
+      "models": {
+        "google/gemini-3.1-pro-preview": {
+          "name": "gemini-3.1-pro-preview (google-vertex)",
+          "options": {
+            "provider": {
+              "only": [
+                "google-vertex"
+              ],
+              "zdr": true,
+              "data_collection": "deny",
+              "allow_fallbacks": false
+            }
+          }
+        },
+        "google/gemini-3-flash-preview": {
+          "name": "gemini-3-flash-preview (google-vertex)",
+          "options": {
+            "provider": {
+              "only": [
+                "google-vertex"
+              ],
+              "zdr": true,
+              "data_collection": "deny",
+              "allow_fallbacks": false
+            }
+          }
+        },
+        "google/gemini-3.1-flash-lite": {
+          "name": "gemini-3.1-flash-lite (google-vertex)",
+          "options": {
+            "provider": {
+              "only": [
+                "google-vertex"
+              ],
+              "zdr": true,
+              "data_collection": "deny",
+              "allow_fallbacks": false
+            },
+            "reasoning": {
+              "enabled": false
+            }
+          }
+        }
+      }
+    }
+  },
+  "small_model": "{env:OPENCODE_MODEL_SMALL}",
+  "agent": {
+    "title": {
+      "model": "{env:OPENCODE_MODEL_SMALL}"
+    },
+    "compaction": {
+      "model": "{env:OPENCODE_MODEL_FLASH}"
+    },
+    "build": {
+      "model": "{env:OPENCODE_MODEL_FLASH}"
+    },
+    "design": {
+      "model": "{env:OPENCODE_MODEL_FLASH}"
+    },
+    "plan": {
+      "disable": true
+    },
+    "debug": {
+      "model": "{env:OPENCODE_MODEL_PRO}"
+    },
+    "explore": {
+      "model": "{env:OPENCODE_MODEL_LITE}"
+    },
+    "docs": {
+      "model": "{env:OPENCODE_MODEL_LITE}"
+    },
+    "code-reviewer": {
+      "model": "{env:OPENCODE_MODEL_FLASH}"
+    },
+    "verifier": {
+      "model": "{env:OPENCODE_MODEL_FLASH}"
+    },
+    "architect": {
+      "model": "{env:OPENCODE_MODEL_PRO}"
+    },
+    "security-reviewer": {
+      "model": "{env:OPENCODE_MODEL_PRO}"
+    },
+    "build-error-resolver": {
+      "model": "{env:OPENCODE_MODEL_FLASH}"
+    },
+    "refactor": {
+      "model": "{env:OPENCODE_MODEL_FLASH}"
+    }
+  }
+}

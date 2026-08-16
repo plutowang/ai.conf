@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "catppuccin.catppuccin-vsc",
+    "catppuccin.catppuccin-vsc-icons",
+    "angular.ng-template",
+    "golang.go",
+    "prisma.vscode-graphql",
+    "ziglang.vscode-zig"
+  ]
+}
+
