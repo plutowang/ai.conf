@@ -51,6 +51,7 @@ Tests written after code prove nothing — they pass immediately and may test th
 </execution_protocol>
 
 <standards>
+**Example**: `src/utils/format.ts` → `src/utils/format.test.ts` covers happy path + edge cases per AAA.
 **Philosophy**
 - Tests document intent — answer: "what behavior does this protect?"
 - Prefer **integration tests** for business logic; unit tests for pure functions and edge cases.

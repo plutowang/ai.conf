@@ -18,6 +18,9 @@
             "Read(**/.env)",
             "Read(**/.env.*)",
             "Read(**/id_rsa)",
+            "Read(**/id_ed25519)",
+            "Read(**/id_ecdsa)",
+            "Read(**/id_dsa)",
             "Read(**/*.pem)",
             "Read(**/*.key)",
             "Read(**/*.p12)",
@@ -25,12 +28,18 @@
             "Read(**/secrets.*)",
             "Read(**/credentials)",
             "Read(**/credentials.json)",
+            "Read(**/.aws/**)",
+            "Read(**/.git-credentials)",
             "Read(**/.kube/config)",
             "Read(**/.npmrc)",
             "Read(**/.netrc)",
             "Shell(wget*)",
+            "Shell(doas*)",
             "Shell(sudo*)",
             "Shell(eval*)",
+            "Shell(rm*)",
+            "Shell(truncate*)",
+            "Shell(shred*)",
             "Shell(python*)",
             "Shell(python3*)",
             "Shell(git commit*)",
@@ -56,10 +65,6 @@
         "useHttp1ForAgent": false
     },
     "approvalMode": "allowlist",
-    "sandbox": {
-        "mode": "enabled",
-        "networkAccess": "user_config_only"
-    },
     "attribution": {
         "attributeCommitsToAgent": true,
         "attributePRsToAgent": true

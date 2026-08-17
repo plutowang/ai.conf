@@ -40,6 +40,23 @@ Configuration for Cursor:
 
 Configuration for GitHub Copilot in VS Code: custom agents, prompts, skills, and file-based instructions.
 
+## Setup
+
+Symlink the configs into each tool's config directory:
+
+```bash
+./setup-links.sh                    # link all three tools
+./setup-links.sh link cursor         # link only cursor
+./setup-links.sh unlink             # remove the symlinks (never touches real files)
+./setup-links.sh unlink cursor --dry-run   # preview removals without changing anything
+```
+
+- `link` (default) creates symlinks from the repo into `~/.copilot/`, `~/.cursor/`, and `~/.config/opencode/`.
+- `unlink` removes any symlink at those destinations; real files/directories are left alone.
+- Flags: `--dry-run` (preview only), `--force` (back up and replace existing real files — link only), `--source <path>` (override repo root).
+- Cursor `settings.json`/`extensions.json` link into `~/Library/Application Support/Cursor/User/` (macOS only).
+- `copilot/rules/` links as `~/.copilot/instructions/` and `copilot/commands/` links as VS Code's `~/Library/Application Support/Code/User/prompts/` (macOS only) — destination names follow each tool's native expectations.
+
 ## Philosophy
 
 Each subfolder is self-contained and tool-specific. The goal is **parity of intent** across tools — the same coding standards, agent behaviors, and workflow automation, expressed in each tool's native configuration format.

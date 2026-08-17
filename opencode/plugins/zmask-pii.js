@@ -32,10 +32,11 @@ let sdkClient = null
 
 // NOTE: opencode's plugin sandbox rejects node:fs/node:url imports, so the
 // path is derived with plain URL parsing only. Bun resolves module symlinks
-// to their real path by default, so this lands in dist/opencode/bin even
-// though the plugin loads through ~/.config/opencode/plugins. The vendored
-// binary is stored per platform+arch (zmask-darwin-arm64, zmask-linux-x64,
-// ...); unsupported platforms fail open via the normal failure model.
+// to their real path by default, so `../bin` resolves to
+// ~/.config/opencode/bin — the sibling of ~/.config/opencode/plugins, where
+// this plugin file itself loads from. The vendored binary is stored per
+// platform+arch (zmask-darwin-arm64, zmask-linux-x64, ...); unsupported
+// platforms fail open via the normal failure model.
 function bundledBinary() {
   const name = `zmask-${process.platform}-${process.arch}`
   return decodeURIComponent(new URL(`../bin/${name}`, import.meta.url).pathname)

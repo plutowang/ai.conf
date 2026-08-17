@@ -1,7 +1,7 @@
 ---
 name: architect
 description: "Handles complex architectural decisions. Use proactively when evaluating patterns or structuring systems."
-model: inherit
+model: grok-4.6
 readonly: true
 is_background: false
 ---
@@ -56,7 +56,7 @@ Follow this 6-step workflow for every architecture task:
 
 When designing REST or GraphQL APIs, the architect MUST:
 
-1. **Load the relevant skill**: Use `skill(name="rest-api")` or `skill(name="graphql")`
+1. **Load the relevant skill**: Load the `rest-api` skill (or the `graphql` skill for GraphQL APIs)
 2. **If skill is unavailable**: Inform the user before proceeding
 3. **Apply skill guidance** for API contracts, conventions, and best practices
 

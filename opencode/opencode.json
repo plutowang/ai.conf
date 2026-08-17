@@ -602,6 +602,9 @@
     "plan": {
       "disable": true
     },
+    "evolver": {
+      "disable": true
+    },
     "debug": {
       "model": "{env:OPENCODE_MODEL_PRO}"
     },

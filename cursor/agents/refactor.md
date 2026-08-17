@@ -1,7 +1,7 @@
 ---
 name: refactor
 description: "Use proactively when restructuring code without changing behavior. Produces a structured refactor plan or executes safe refactorings."
-model: fast
+model: grok-4.6
 readonly: false
 is_background: false
 ---

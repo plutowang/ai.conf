@@ -1,0 +1,14 @@
+{
+  "autoRun": {
+    "allow_instructions": [
+      "Only these specific commands may run without approval: git status, git diff, git log."
+    ],
+    "block_instructions": [
+      "Every destructive command (rm -rf, force-push, drop, truncate) should go through approval first.",
+      "Every command that rewrites or deletes git history should go through approval first.",
+      "Every command that writes to credential, config, or history files outside the workspace (for example ~/.ssh, ~/.aws, /etc, shell rc files) should go through approval first.",
+      "Every command that installs or updates global packages should go through approval first.",
+      "Every command that touches credentials, secrets, or environment files should go through approval first."
+    ]
+  }
+}

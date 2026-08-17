@@ -74,8 +74,7 @@ Delegate only to a subagent your own permissions allow. The `Callable by` column
 
 The phase pipeline: design loads `brainstorming` then `writing-plans`; implementation loads `subagent-driven-dev` then `verification-gate`, with `test-driven-development` active throughout implementation.
 
-
-**Agent name map (opencode):** retrieval agent = `explore` · implementation agent = `build` · planning agent = `design` · documentation agent = `docs` · debugging agent = `debug` · build-error agent = `build-error-resolver` · architect agent = `architect` · refactoring agent = `refactor` · code review agent = `code-reviewer` · security review agent = `security-reviewer` · verifier agent = `verifier`.
+**Agent name map (opencode):** retrieval agent = `explore` · implementation agent = `build` · planning agent = `design` · documentation agent = `docs` · debugging agent = `debug` · build-error agent = `build-error-resolver` · architect agent = `architect` · refactoring agent = `refactor` · code review agent = `code-reviewer` · security review agent = `security-reviewer` · verifier agent = `verifier` · evolution agent = `evolver` (disabled).
 </standards>
 
 <formatting_and_memory>

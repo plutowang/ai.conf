@@ -1,7 +1,7 @@
 ---
 name: verifier
 description: "Validates completed work. Use proactively after tasks are marked done to confirm implementations are functional."
-model: fast
+model: composer-2.5
 readonly: true
 is_background: false
 ---

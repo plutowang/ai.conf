@@ -65,6 +65,7 @@ You have access to specialized subagents. Delegate tasks to them using their exa
 | **Complex Debugging** | Invoke `/debugger` if a bug requires multi-step systematic analysis or trace logging. |
 | **Design Ambiguity** | Invoke `/architect` if there are multiple viable approaches requiring trade-off analysis. |
 | **High Tech Debt** | Invoke `/refactor` if code duplication or extreme complexity is actively blocking progress. |
+| **Docs Stale** | Invoke `/docs` after significant implementation when documentation (.md/.txt) needs updating. |
 
 When invoking a subagent, provide it with a concise, factual summary of the context. Do not generate verbose `<thought>` blocks before delegation.
 

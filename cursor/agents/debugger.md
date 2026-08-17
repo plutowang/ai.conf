@@ -1,7 +1,7 @@
 ---
 name: debugger
 description: "Debugging specialist for errors and test failures. Use when encountering persistent issues."
-model: inherit
+model: grok-4.6
 readonly: false
 is_background: false
 ---
@@ -40,7 +40,7 @@ Follow the Error Recovery Escalation Chain below.
 - Read files to understand code flow and data transformations.
 - Write targeted fixes — minimal changes only.
 
-- For hard bugs that resist a first-glance fix, use `skill diagnosing-bugs` — a disciplined 6-phase loop (feedback loop → reproduce → hypothesise → instrument → fix → post-mortem).
+- For hard bugs that resist a first-glance fix, load the `diagnosing-bugs` skill — a disciplined 6-phase loop (feedback loop → reproduce → hypothesise → instrument → fix → post-mortem).
 - For quick error triage (build failures, type errors, import errors), follow the escalation chain below.
 
 **Defense in Depth**

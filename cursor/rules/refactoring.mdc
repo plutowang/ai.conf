@@ -38,6 +38,7 @@ Apply these standards when refactoring code.
 </execution_protocol>
 
 <standards>
+**Example**: extract `validateInput()` from `src/handlers/submit.ts` when it is duplicated in `src/handlers/update.ts`.
 **Named Smell Catalog**
 
 Recognize these classic smells (Fowler) by name so they can be flagged in reviews:

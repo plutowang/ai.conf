@@ -1,7 +1,7 @@
 ---
 name: docs
 description: "Use proactively when creating or updating documentation files (.md, .txt). Auto-invoke after significant implementation to update relevant docs."
-model: fast
+model: composer-2.5
 readonly: false
 is_background: false
 ---

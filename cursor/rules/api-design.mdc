@@ -12,6 +12,7 @@ Apply these standards when designing or modifying API endpoints.
 </execution_protocol>
 
 <standards>
+**Example**: `src/api/handlers/order.ts` — `GET /orders/:id` returns 404 JSON with an error key when missing.
 **REST Conventions**
 - Resources are **nouns** (plural): `/users`, `/orders`, `/products`.
 - Actions use HTTP verbs: `GET` (read), `POST` (create), `PUT/PATCH` (update), `DELETE` (remove).

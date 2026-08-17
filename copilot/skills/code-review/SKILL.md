@@ -1,6 +1,6 @@
 ---
 name: code-review
-description: Use when explicitly asked to review a git branch, Pull Request (PR), Merge Request (MR), or perform a pre-merge review. Do not use for inline code critiques.
+description: Use when asked to review a branch, Pull Request (PR), Merge Request (MR), inline code snippet, or perform a pre-merge review. Covers full branch reviews and lightweight snippet critique.
 license: MIT
 ---
 
@@ -8,127 +8,41 @@ license: MIT
 
 Perform comprehensive code reviews of a branch against the base branch, providing actionable feedback on code quality, security, performance, and best practices.
 
-## When to Use This Skill
+<red_lines>
 
-Activate this skill when:
+- NEVER review lock files. Filter them out: `pnpm-lock.yaml`, `package-lock.json`, `yarn.lock`, `bun.lockb`, `go.sum`, `Cargo.lock`, `poetry.lock`, `Pipfile.lock`, `pdm.lock`, `Gemfile.lock`, `composer.lock`, `deno.lock`, `flake.lock`.
+- Snippet mode: NEVER review the full branch — this mode is for the provided snippet only.
+- ONLY comment on code that was changed in THIS branch's commits or uncommitted work.
+- NEVER provide a corrected example unless requested.
+- Frame ALL feedback as questions, not commands.
+- If the diff is very large — files > 100 or lines > 5000 — ask for confirmation before proceeding.
+- Worktree mode: NEVER run automated checks without asking the user first (may require installing dependencies).
+- Current-branch mode: NEVER create a worktree or switch branches.
+</red_lines>
 
-- The user types "review" or "code review"
-- The user types "review BRANCH-NAME" to review a specific branch
-- The user asks to review a branch, pull request, or merge request
-- Analyzing code changes before merging
-- Performing code quality assessments
-- Checking for security vulnerabilities or performance issues
-- Reviewing branch diffs
+<execution_protocol>
+Activate this skill when: the user types "review", "code review", "critique", or "analyze"; types "review BRANCH-NAME" to review a specific branch; asks to review a specific code snippet, function, or file; asks to review a branch, pull request, or merge request; analyzing code changes before merging; performing code quality assessments; checking for security vulnerabilities or performance issues; reviewing branch diffs.
 
-**Two Review Modes:**
+**Three review modes:**
 
-1. **Current Branch Review** (default when no branch specified)
-   - Reviews all changes in current branch (committed + uncommitted)
-   - Includes staged and unstaged changes
-   - Runs automated checks (linters, formatters, tests)
+1. **Snippet Review** — review a specific code block or snippet for bugs, security issues, and code quality.
+2. **Current Branch Review** (default when no branch specified) — reviews all changes in current branch (committed + uncommitted), includes staged and unstaged changes, runs automated checks (linters, formatters, tests).
+3. **Other Branch Review** (when branch name specified) — uses git worktree for non-disruptive review, reviews only committed changes from that branch, leaves your current work untouched.
 
-2. **Other Branch Review** (when branch name specified)
-   - Uses git worktree for non-disruptive review
-   - Reviews only committed changes from that branch
-   - Leaves your current work untouched
+**Snippet mode focus:** Security (injections, exposed secrets, unsanitized input); Performance (O(n²) loops, memory leaks, unoptimized queries); Types (strict typing, no `any`, correct error handling); Logic (edge cases, off-by-one errors, incorrect assumptions).
 
-## Branch Selection
+**Finding tiers:** 🔴 **Critical** — bugs, security vulnerabilities, panics. 🟡 **Warning** — performance issues, messy logic, missing error handling. 🟢 **Suggestion** — naming, formatting, style improvements.
 
-### Branch Name Provided
+For each finding: file:line reference + question framing (see Feedback style below); corrected example only if requested.
 
-**If a branch name is provided** (e.g., "review feature/payment"):
+**Branch selection:**
 
-1. Fetch latest from origin: `git fetch origin`
-2. Set up a git worktree for the branch (see Worktree Setup below)
-3. Proceed with the review in the worktree
-4. Clean up the worktree after review is complete
+- Branch name provided: use `skill git-worktrees` for isolated workspace setup. Fetch latest, create the worktree, and perform all review operations within it. Clean up the worktree after the review.
+- No branch specified (current branch): include uncommitted changes — staged: `git diff --cached`; unstaged: `git diff`. Run automated quality checks (linters, formatters, tests). Do not create a worktree or switch branches.
 
-### No Branch Specified (Current Branch)
+**Analyze branch context:** identify the current branch name (or worktree branch); determine the appropriate base branch (main or master); check for any uncommitted changes (current branch only); find the merge-base to isolate only commits made in this branch; get the list of commits and changed files.
 
-**If no branch name is provided** (e.g., just "review"):
-
-1. Review the current branch as-is in the current directory
-2. **Include uncommitted changes**:
-   - Staged changes: `git diff --cached`
-   - Unstaged changes: `git diff`
-3. **Run automated quality checks** (linters, formatters, tests)
-4. Do not create a worktree or switch branches
-
-### Worktree Setup for Non-Disruptive Reviews
-
-When reviewing a branch that isn't the current branch, use a git worktree to avoid disturbing the current working state:
-
-1. Create a worktree directory at `<repo-root>/.worktrees/<branch-name>`:
-
-   ```bash
-   git worktree add .worktrees/<branch-name> origin/<branch-name>
-   ```
-
-2. Perform all review operations within the worktree directory
-3. After the review is complete, remove the worktree:
-
-   ```bash
-   git worktree remove .worktrees/<branch-name>
-   ```
-
-**Important**: Always use the worktree path when reading files or running git commands during the review.
-
-### Dependency Installation in Worktrees
-
-When setting up a worktree, install dependencies if you need to run checks (tests, type checking, linting):
-
-1. **Detect package manager**: Check for `pnpm-lock.yaml`, `Cargo.lock`, `go.mod`
-2. **Install dependencies**:
-
-   ```bash
-   cd <worktree-path> && pnpm install
-   ```
-
-3. **Run checks** (optional, if needed for thorough review)
-
-**When to install dependencies:**
-
-- When you need to run tests, type checking, or linting
-- When reviewing changes that affect build or compilation
-
-**When to skip dependency installation:**
-
-- Simple reviews that only need to examine diffs
-
-### Worktree Error Handling
-
-**If the worktree already exists:**
-
-```bash
-git worktree remove .worktrees/<branch-name> --force 2>/dev/null || true
-git worktree add .worktrees/<branch-name> origin/<branch-name>
-```
-
-**If no matching branch is found:**
-
-- Inform the user that no branch was found
-- List available branches that might be related (partial matches)
-
-**Always clean up worktrees:**
-
-- Even if the review encounters errors, attempt to clean up the worktree
-- Use `git worktree list` to verify cleanup was successful
-
-### .gitignore Recommendation
-
-The `.worktrees` directory should be added to `.gitignore`.
-
-## Analyze Branch Context
-
-First, gather essential information about the branch to review:
-
-- Identify the current branch name (or worktree branch)
-- Determine the appropriate base branch (main or master)
-- Check for any uncommitted changes (current branch only)
-- **Find the merge-base** to isolate only commits made in this branch
-- Get the list of commits and changed files
-
-### Detect Default Branch (Use Ancestry)
+**Detect default branch (use ancestry):**
 
 ```bash
 DEFAULT_BRANCH=""
@@ -155,9 +69,7 @@ fi
 [ -z "$DEFAULT_BRANCH" ] && DEFAULT_BRANCH="main"
 ```
 
-### Finding Branch-Specific Changes (CRITICAL)
-
-**You MUST use `git merge-base` to find the common ancestor.** This ensures you only review commits that were made in THIS branch.
+**Finding branch-specific changes (CRITICAL):** you MUST use `git merge-base` to find the common ancestor. This ensures you only review commits that were made in THIS branch, not commits from other branches that happened to be merged into main.
 
 ```bash
 MERGE_BASE=$(git merge-base origin/$DEFAULT_BRANCH HEAD)
@@ -166,18 +78,9 @@ git diff --name-status $MERGE_BASE..HEAD
 git diff $MERGE_BASE..HEAD
 ```
 
-**Why this matters:**
+Why this matters: `git diff origin/main..HEAD` shows ALL differences between main and HEAD, including changes from OTHER branches merged into main after this branch was created; `git diff $(git merge-base origin/main HEAD)..HEAD` shows ONLY the changes introduced in THIS branch. Always use the merge-base approach for: `git log` (list commits), `git diff` (see changes), `git diff --stat` (change statistics), `git diff --name-status` (file list).
 
-- `git diff origin/main..HEAD` shows ALL differences between main and HEAD, including changes from OTHER branches
-- `git diff $(git merge-base origin/main HEAD)..HEAD` shows ONLY the changes introduced in THIS branch
-
-**Always use the merge-base approach for:**
-
-- `git log` - to list commits
-- `git diff` - to see changes
-- `git diff --stat` - for change statistics
-
-### Uncommitted Changes (Current Branch Only)
+**Uncommitted changes (current branch only):**
 
 ```bash
 git diff --cached --name-status
@@ -186,101 +89,85 @@ git diff --name-status
 git diff --stat
 ```
 
-### Exclude Lock Files
+**Run automated quality checks:** current branch — always run; worktree — ask the user before running (may require installing dependencies). Auto-detect project type and run appropriate checks. Use `gtimeout` or `timeout` with a 5-minute limit per check. Failures are reported but do not stop the review.
 
-Do not review lock files. Filter them out:
-
-- `pnpm-lock.yaml`
-- `package-lock.json`
-- `yarn.lock`
-- `bun.lockb`
-- `go.sum`
-- `Cargo.lock`
-- `poetry.lock`
-- `Pipfile.lock`
-- `pdm.lock`
-- `Gemfile.lock`
-- `composer.lock`
-- `deno.lock`
-- `flake.lock`
-
-### Large Diff Confirmation
-
-If diff is very large, ask for confirmation before proceeding:
-
-- **Files > 100** or **Lines > 5000**
-
-## Run Automated Quality Checks
-
-**Current branch**: Always run checks.
-**Worktree**: Ask the user before running checks.
-
-Run the bundled check script. It auto-detects the project type (Nx, Rust, Go, Node.js) and runs the appropriate linters, formatters, and tests with a 5-minute timeout per check. Failures are reported but do not stop the review.
+**Detect project type:**
 
 ```bash
-~/.copilot/skills/code-review/run-checks.sh "$MERGE_BASE" [WORKTREE_PATH]
+# Detect in order of specificity
+if [ -f "nx.json" ]; then
+  PROJECT_TYPE="nx"
+elif [ -f "Cargo.toml" ]; then
+  PROJECT_TYPE="rust"
+elif [ -f "go.mod" ]; then
+  PROJECT_TYPE="go"
+elif [ -f "package.json" ]; then
+  PROJECT_TYPE="node"
+else
+  PROJECT_TYPE="unknown"
+fi
 ```
 
-Capture the output and include results in the review report.
+**Run checks by type:**
 
-## Perform Comprehensive Code Review
+```bash
+# Nx (Node.js/TypeScript monorepo)
+pnpm nx run-many --target=lint --target=test --parallel=2
 
-Conduct a thorough review of **only the changes introduced in this branch**.
+# Rust
+cargo clippy --all-targets --all-features -- -D warnings
+cargo check --all
+cargo fmt --check --all
+cargo test
 
-### 1. Change Analysis
+# Go
+go vet ./...
+go test -v ./...
 
-- Use `git diff $(git merge-base origin/$DEFAULT_BRANCH HEAD)..HEAD -- <file>` to review each modified file
-- Examine commits using `git show <commit-hash>`
-- Identify patterns across changes
-- Check for consistency with existing codebase
+# Node.js (pnpm)
+pnpm lint
+pnpm test
 
-### 2. Code Quality Assessment
+# Node.js (npm/yarn fallback)
+npm run lint 2>/dev/null || yarn lint 2>/dev/null
+npm test 2>/dev/null || yarn test 2>/dev/null
+```
 
-- Code style and formatting consistency
-- Variable and function naming conventions
-- Code organization and structure
-- Adherence to DRY principles
+Capture output and include results in the review report.
 
-### 3. Technical Review
+**Perform comprehensive code review** — review ONLY the changes introduced in this branch (using merge-base as described above):
 
-- Logic correctness and edge cases
-- Error handling and validation
-- Performance implications
-- Security considerations
+1. **Change Analysis** — use `git diff $(git merge-base origin/$DEFAULT_BRANCH HEAD)..HEAD -- <file>` to review each modified file; if reviewing current branch, also review `git diff --cached` and `git diff`; examine commits using `git show <commit-hash>` for individual commits in the branch; identify patterns across changes; check for consistency with existing codebase.
+2. **Code Quality** — code style and formatting consistency; variable and function naming conventions; code organization and structure; adherence to DRY; proper abstraction levels.
+3. **Technical Review** — logic correctness and edge cases; error handling and validation; performance implications; security considerations (input validation, SQL injection, XSS, etc.); resource management (memory leaks, connection handling); concurrency issues if applicable.
+4. **Best Practices** — design patterns usage; SOLID principles adherence; testing coverage implications; documentation completeness; API consistency; backwards compatibility.
+5. **Dependencies and Integration** — new dependencies added; breaking changes to existing interfaces; impact on other parts of the system; database migration requirements.
 
-### 4. Best Practices Check
+**Feedback style: questions, not directives.** Frame all feedback as questions, not commands — this encourages dialogue and respects the author's context.
 
-- Design patterns usage
-- SOLID principles adherence
-- Testing coverage implications
+- ❌ Don't write: "You should use early returns here"; "This needs error handling"; "Extract this into a separate function"; "Add a null check".
+- ✅ Do write: "Could this be simplified with an early return?"; "What happens if this API call fails? Would error handling help here?"; "Would it make sense to extract this into its own function for reusability?"; "Is there a scenario where this could be null? If so, how should we handle it?"
+- Why questions work better: the author may have context you don't have; questions invite explanation rather than defensiveness; they acknowledge uncertainty in the reviewer's understanding; they create a conversation rather than a checklist.
+</execution_protocol>
 
-## Generate Review Report
-
+<formatting_and_memory>
 Create a structured code review report with:
 
-1. **Executive Summary**: High-level overview of changes
-2. **Statistics**: Files changed, lines added/removed, commits reviewed
-3. **Automated Check Results**: Format/lint/test results
-4. **Strengths**: What was done well
-5. **Issues by Priority**: Critical / Important / Suggestions
-6. **Security Review**: Specific security considerations
-7. **Testing Recommendations**: What tests should be added
+1. **Executive Summary** — high-level overview of changes and overall assessment
+2. **Statistics** — files changed, lines added/removed; commits reviewed; uncommitted changes status (current branch only); critical issues found
+3. **Automated Check Results** — format check ✅ Passed / ❌ Failed; linter ✅ Passed / ⚠️ Warnings / ❌ Errors; tests ✅ Passed / ❌ Failed; brief summary of failures
+4. **Strengths** — what was done well
+5. **Issues by Priority** (vocabulary matches the code review standards: Critical / Warning / Suggestion) — 🔴 must fix before merging (bugs, security issues, failed checks); 🟡 should address (performance, maintainability); 🟢 nice to have improvements
+6. **Detailed Findings** — for each issue: file:line reference; question framing ("Could this cause X?"); why you're asking; code example if helpful
+7. **Security Review** — specific security considerations
+8. **Performance Review** — performance implications
+9. **Testing Recommendations** — what tests should be added
+10. **Documentation Needs** — what documentation should be updated
 
-## User Interaction
+**Report output:** display the complete review report in markdown format; save report to `docs/reviews/CODE_REVIEW_[YYYY-MM-DD_HH-MM-SS].md` in repo root (example filename: `CODE_REVIEW_2026-01-27_14-30-22.md`).
+</formatting_and_memory>
 
-After completing the review:
+<pre_flight_check>
 
-1. Display the complete review report in markdown format
-2. Provide actionable next steps based on findings
-
-## Feedback Style: Questions, Not Directives
-
-**Frame all feedback as questions, not commands.**
-
-❌ **Don't write:**
-
-- "You should use early returns here"
-
-✅ **Do write:**
-
-- "Could this be simplified with an early return?"
+- Before finishing: confirm no lock files were reviewed, no comments on out-of-branch code, all feedback is question-framed, large-diff confirmation was obtained when needed, worktree was cleaned up after branch review, and the report was saved to `docs/reviews/CODE_REVIEW_*.md` — then display the complete report, provide actionable next steps based on findings, and highlight critical issues prominently.
+</pre_flight_check>

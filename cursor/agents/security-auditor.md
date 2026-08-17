@@ -1,7 +1,7 @@
 ---
 name: security-auditor
 description: "Security specialist. Use proactively when implementing auth, payments, or handling sensitive data."
-model: inherit
+model: grok-4.6
 readonly: true
 is_background: false
 ---
