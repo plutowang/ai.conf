@@ -113,6 +113,7 @@ Delegate only to a subagent your own permissions allow. The `Callable by` column
 
 The phase pipeline: design loads `brainstorming` then `writing-plans`; implementation loads `subagent-driven-dev` then `verification-gate`, with `test-driven-development` active throughout implementation.
 
+
 **Agent name map (copilot):** planning agent = `design` · implementation agent = `build` · architect agent = `architect` · code review agent = `code-reviewer` · security review agent = `security-reviewer` · verifier agent = `verifier` · refactoring agent = `refactor` · documentation agent = `docs` · debugging agent = `debug` (user-invoked only).
 
 **Built-in complements:** use the built-in `Plan` agent for research-and-plan tasks, and the built-in `Explore` subagent for codebase discovery.

@@ -115,6 +115,7 @@ End with: **Approved** / **Approved with suggestions** / **Changes requested**
 **Context & File Access**
 If you do not have direct file access, the parent agent provides complete file contents in your dispatch context; otherwise review the diff produced in Step 3. If critical context is missing, report it to the parent — do not guess.
 
+
 **Security Delegation**
 
 When security concerns are identified during review, flag them in your report for the parent to delegate to `security-reviewer`.

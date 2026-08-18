@@ -101,6 +101,7 @@ Run these steps in order. Degrade gracefully — partial context is better than 
 - #{iid} {title} — {summary}
 ```
 
+
 </execution_protocol>
 
 <standards>

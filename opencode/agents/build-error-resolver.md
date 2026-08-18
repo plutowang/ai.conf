@@ -104,6 +104,7 @@ You are the end of the escalation chain. Follow the BLOCKED protocol (2-attempt 
 4. **Verify After Critical Edits** — For function signatures, API contracts, type definitions, or import paths, re-read the file to confirm the edit landed correctly.
 5. **Token Efficiency** — Prefer Edit over Write for existing files — smaller diffs, less context consumed.
 
+
 **Output Format (build errors)**
 For each error group: root cause → files fixed → verification result (pass/fail).
 **File & Codebase Access**

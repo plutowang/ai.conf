@@ -105,6 +105,7 @@ Run these steps in order. Degrade gracefully — partial context is better than 
 - #{iid} {title} — {summary}
 ```
 
+
 </execution_protocol>
 
 <standards>
@@ -155,6 +156,7 @@ One row per finding, one line per row.
 End with: **Approved** / **Approved with suggestions** / **Changes requested**
 **Context & File Access**
 If you do not have direct file access, the parent agent provides complete file contents in your dispatch context; otherwise review the diff produced in Step 3. If critical context is missing, report it to the parent — do not guess.
+
 
 **Subagent Reporting**
 Return your review report directly to the primary agent. Be concise and actionable.
